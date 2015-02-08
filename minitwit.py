@@ -21,9 +21,6 @@ app.config.update(dict(
     SECRET_KEY='development key'))
 app.config.from_envvar('MINITWIT_SETTINGS', silent=True)
 
-from portraitdomain import portraitdomain
-app.register_blueprint(portraitdomain, url_prefix='/portraits')
-
 def get_user_id(username):
     """Convenience method to look up the id for a username."""
     rv = mongo.db.user.find_one({'username': username}, {'_id': 1})
@@ -192,6 +189,39 @@ def logout():
     flash('You were logged out')
     session.pop('user_id', None)
     return redirect(url_for('public_timeline'))
+
+from datetime import datetime
+from os import listdir
+from os.path import isfile, join
+
+def find_by_file(filename):
+    """ Look up the id for a filename of image """
+    rv = mongo.db.portrait.find_one({'filename': filename}, {'_id': 1})
+    return rv['_id'] if rv else None
+
+@app.route('/portraits/update')
+def portraits_update():
+    """ Reloads portraits database """
+    PD_PATH_META = "data/meta"
+    PD_PATH_IMGS = "data/images"
+    pdfiles = [ f for f in listdir(PD_PATH_META) 
+        if isfile(join(PD_PATH_META, f)) ]
+    # load each file
+    for f in pdfiles:
+        filename = f.rstrip('.xml')
+        imagefile = "%s.jpg" % (filename)
+        if isfile(join(PD_PATH_IMGS, imagefile)):
+            # skip if already in database
+            if find_by_file(filename) is None:
+                mongo.db.portrait.insert({
+                    'filename': filename,
+                    'imagefile': imagefile,
+                    'added': datetime.now(),
+                    'user': None,
+                    })
+    # show contents of db
+    portraits = mongo.db.portrait.find()
+    return "Count: %d" % portraits.count()
 
 
 # add some filters to jinja
