@@ -21,6 +21,8 @@ app.config.update(dict(
     SECRET_KEY='development key'))
 app.config.from_envvar('MINITWIT_SETTINGS', silent=True)
 
+from portraitdomain import portraitdomain
+app.register_blueprint(portraitdomain, url_prefix='/portraits')
 
 def get_user_id(username):
     """Convenience method to look up the id for a username."""
