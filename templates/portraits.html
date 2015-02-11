@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}
+  Portrait Gallery
+{% endblock %}
+{% block body %}
+  <ul class=portraits>
+    {% for portrait in portraits %}
+      <li><img src="data/images/{{ portrait.filename }}.jpg"></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

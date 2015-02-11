@@ -202,8 +202,8 @@ def find_by_file(filename):
 @app.route('/portraits/update')
 def portraits_update():
     """ Reloads portraits database """
-    PD_PATH_META = "data/meta"
-    PD_PATH_IMGS = "data/images"
+    PD_PATH_META = "portraits-meta"
+    PD_PATH_IMGS = "static/portraits"
     pdfiles = [ f for f in listdir(PD_PATH_META) 
         if isfile(join(PD_PATH_META, f)) ]
     # load each file
@@ -223,6 +223,16 @@ def portraits_update():
     portraits = mongo.db.portrait.find()
     return "Count: %d" % portraits.count()
 
+@app.route('/portraits')
+def portraits_list():
+    """ Browse the portraits """
+    if 'user_id' not in session:
+        abort(401)
+        # Todo: check g.user for selected portrait
+    portraits = mongo.db.portrait.find(
+            {'user': None}
+        ).limit(16)
+    return render_template('portraits.html', portraits=portraits)
 
 # add some filters to jinja
 app.jinja_env.filters['datetimeformat'] = format_datetime
