@@ -1,12 +1,12 @@
-This is a quick tutorial to deploy a web service (a social network) by the LNMP (Linux, Nginx, MongoDB, Python) infrastructure on any IaaS cloud. The repo at Github is at https://github.com/dapangmao/minitwit-mongo-ubuntu. 
+# Portrait Domain
+
+This is a project demo developed for the [OpenGLAM.ch Hackathon](http://openglam.ch) in Berne, Switzerland on February 27-28, 2015. For background information see the [concept](https://docs.google.com/document/d/1qBTeD2aGTcyGEKOV28KBpriDiGb5BBiKpRs48SAEB3w/edit?usp=sharing).
 
 ####Stack
-The stack is built on the tools in the ecosystem of Python below. 
 
 | Tool   |      Name      |  Advantage |
 |----------|:-------------:|------|
-| Cloud | [DigitalOcean](https://www.digitalocean.com/) | Cheap but fast |
-| Server distro |  Ubuntu 14.10 x64 | Everything is latest |
+| Server distro |  Ubuntu 14.10 x64 | Latest linux |
 | WSGI proxy |    Gunicorn   |   Manage workers automatically |
 | Web proxy | Nginx |    Fast and easy to configure|
 | Framework | Flask |Single file approach for MVC |
@@ -16,7 +16,7 @@ The stack is built on the tools in the ecosystem of Python below.
 In addition, a [Supervisor](http://supervisord.org/) running on the server provides a daemon to protect the Gunicorn-Flask process. 
 
 ####The MiniTwit app
-The MiniTwit application is [an example provided by Flask](https://github.com/mitsuhiko/flask/tree/master/examples/minitwit), which is a prototype of Twitter like multiple-user social network. The original application depends on SQLite. However, the data store could be modified to fit the category of NoSQL such as Google Data Store or MongoDB. A live MintiTwit demo is hosted at http://minitwit-123.appspot.com/public
+Based on the [MiniTwit application](https://github.com/mitsuhiko/flask/tree/master/examples/minitwit), which is a prototype of Twitter like multiple-user social network. The original application depends on SQLite. However, the data store could be modified to fit the category of NoSQL such as Google Data Store or MongoDB.
 
 ####Deployment
 
