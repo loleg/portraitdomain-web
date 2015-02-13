@@ -5,7 +5,7 @@
 {% block body %}
   <ul class=portraits>
     {% for portrait in portraits %}
-      <li><img src="data/images/{{ portrait.filename }}.jpg"></li>
+      <li><img height="80" src="/static/portraits/{{ portrait.filename }}.jpg"></li>
     {% endfor %}
   </ul>
 {% endblock %}

@@ -209,6 +209,7 @@ def portraits_update():
     # load each file
     for f in pdfiles:
         filename = f.rstrip('.xml')
+        # TODO read metadata
         imagefile = "%s.jpg" % (filename)
         if isfile(join(PD_PATH_IMGS, imagefile)):
             # skip if already in database
@@ -224,14 +225,14 @@ def portraits_update():
     return "Count: %d" % portraits.count()
 
 @app.route('/portraits')
-def portraits_list():
+def portraits():
     """ Browse the portraits """
     if 'user_id' not in session:
         abort(401)
         # Todo: check g.user for selected portrait
     portraits = mongo.db.portrait.find(
             {'user': None}
-        ).limit(16)
+        ).limit(21)
     return render_template('portraits.html', portraits=portraits)
 
 # add some filters to jinja

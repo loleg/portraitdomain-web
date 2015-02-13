@@ -1,5 +1,8 @@
+.portraits { list-style: none; padding: 0px; text-align: center; }
+.portraits li { padding: 0px; margin: 10px; display: inline-block; }
+
 body {
-    background: #CAECE9;
+    background: #eee;
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 14px;
 }
@@ -176,3 +179,5 @@ div.error {
     padding: 4px;
     font-size: 13px;
 }
+
+
