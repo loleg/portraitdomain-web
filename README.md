@@ -6,7 +6,7 @@ This is a project demo developed for the [OpenGLAM.ch Hackathon](http://openglam
 
 | Tool   |      Name      |  Advantage |
 |----------|:-------------:|------|
-| Server distro |  Ubuntu 14.10 x64 | Latest linux |
+| Server distro |  Ubuntu 14.10 x64 | Latest Linux |
 | WSGI proxy |    Gunicorn   |   Manage workers automatically |
 | Web proxy | Nginx |    Fast and easy to configure|
 | Framework | Flask |Single file approach for MVC |

@@ -9,6 +9,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask.ext.pymongo import PyMongo
 from bson.objectid import ObjectId
 
+import portraitdomain
+
 # create our little application :)
 app = Flask(__name__)
 
@@ -190,39 +192,11 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('public_timeline'))
 
-from datetime import datetime
-from os import listdir
-from os.path import isfile, join
-
-def find_by_file(filename):
-    """ Look up the id for a filename of image """
-    rv = mongo.db.portrait.find_one({'filename': filename}, {'_id': 1})
-    return rv['_id'] if rv else None
-
 @app.route('/portraits/update')
 def portraits_update():
     """ Reloads portraits database """
-    PD_PATH_META = "portraits-meta"
-    PD_PATH_IMGS = "static/portraits"
-    pdfiles = [ f for f in listdir(PD_PATH_META) 
-        if isfile(join(PD_PATH_META, f)) ]
-    # load each file
-    for f in pdfiles:
-        filename = f.rstrip('.xml')
-        # TODO read metadata
-        imagefile = "%s.jpg" % (filename)
-        if isfile(join(PD_PATH_IMGS, imagefile)):
-            # skip if already in database
-            if find_by_file(filename) is None:
-                mongo.db.portrait.insert({
-                    'filename': filename,
-                    'imagefile': imagefile,
-                    'added': datetime.now(),
-                    'user': None,
-                    })
-    # show contents of db
-    portraits = mongo.db.portrait.find()
-    return "Count: %d" % portraits.count()
+    count = portraitdomain.update(mongo.db.portrait)
+    return "Count: %d" % count
 
 @app.route('/portraits')
 def portraits():
