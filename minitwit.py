@@ -198,6 +198,44 @@ def portraits_update():
     count = portraitdomain.update(mongo.db.portrait)
     return "Count: %d" % count
 
+@app.route('/portraits/get/<userid>')
+def portraits_get(userid):
+    """ Fetches filename of portrait for user """
+    user = mongo.db.user.find_one(
+        {'_id': ObjectId(userid)})
+    if user is None:
+        abort(404)
+    if 'portrait_file' in user:
+        pfile = user['portrait_file']
+    else:
+        pfile = "default.png"
+    return redirect('/static/portraits/%s' % pfile)
+
+@app.route('/portraits/select/<pid>')
+def portraits_select(pid):
+    """ Assign portrait to user """
+    if 'user_id' not in session:
+        abort(401)
+    portrait = mongo.db.portrait.find_one(
+        {'_id': ObjectId(pid)})
+    if portrait is None:
+        abort(404)
+    # Update portrait
+    mongo.db.portrait.update(
+        { '_id': ObjectId(pid) },
+        { '$set': {
+            { 'user': session['user_id'] }
+        }});
+    # Update user
+    mongo.db.user.update(
+        { '_id': ObjectId(session['user_id']) },
+        { '$set': {
+            { 'portrait_id': pid,
+              'portrait_file': portrait['imagefile'] }
+        }});
+    flash('Your portrait has been set')
+    return redirect(url_for('public_timeline'))
+
 @app.route('/portraits')
 def portraits():
     """ Browse the portraits """
