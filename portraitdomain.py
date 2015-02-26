@@ -8,8 +8,8 @@ def find_by_file(dbo, filename):
     return rv['_id'] if rv else None
 
 def update(dbo):
-    PD_PATH_META = "portraits-meta"
-    PD_PATH_IMGS = "static/portraits"
+    PD_PATH_META = "static/portraits-meta"
+    PD_PATH_IMGS = "static/portraits-images"
     pdfiles = [ f for f in listdir(PD_PATH_META) 
         if isfile(join(PD_PATH_META, f)) ]
     # load each file

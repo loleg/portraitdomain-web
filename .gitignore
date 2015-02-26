@@ -1,7 +1,7 @@
 .venv
 data
-portraits-meta
-static/portraits
+static/portraits-meta
+static/portraits-images
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

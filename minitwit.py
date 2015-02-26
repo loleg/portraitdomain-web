@@ -209,7 +209,7 @@ def portraits_get(userid):
         pfile = user['portrait_file']
     else:
         pfile = "default.png"
-    return redirect('/static/portraits/%s' % pfile)
+    return redirect('/static/portraits-images/%s' % pfile)
 
 @app.route('/portraits/select/<pid>')
 def portraits_select(pid):
@@ -224,14 +224,14 @@ def portraits_select(pid):
     mongo.db.portrait.update(
         { '_id': ObjectId(pid) },
         { '$set': {
-            { 'user': session['user_id'] }
+            'user': session['user_id']
         }});
     # Update user
     mongo.db.user.update(
         { '_id': ObjectId(session['user_id']) },
         { '$set': {
-            { 'portrait_id': pid,
-              'portrait_file': portrait['imagefile'] }
+            'portrait_id': pid,
+            'portrait_file': portrait['imagefile']
         }});
     flash('Your portrait has been set')
     return redirect(url_for('public_timeline'))

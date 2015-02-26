@@ -120,6 +120,7 @@ div.page ul.messages p {
 div.page ul.messages li img {
     float: left;
     padding: 0 10px 0 0;
+    height: 46px;
 }
 
 div.page ul.messages li small {
