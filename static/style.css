@@ -215,3 +215,7 @@ div.metadesc img {
 div.metadesc {
     clear: both;
 }
+
+div.page ul.messages p.text {
+    margin: 3pt;
+}

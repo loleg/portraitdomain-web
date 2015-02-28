@@ -80,15 +80,24 @@ def user_timeline(username):
     profile_user = mongo.db.user.find_one({'username': username})
     if profile_user is None:
         abort(404)
+    # Work out followers
     followed = False
     if g.user:
         followed = mongo.db.follower.find_one(
             {'who_id': ObjectId(session['user_id']),
              'whom_id': {'$in': [ObjectId(profile_user['_id'])]}}) is not None
+    # Get messages
     messages = mongo.db.message.find(
         {'author_id': ObjectId(profile_user['_id'])}).sort('pub_date', -1)
+    # Get portrait if selected
+    pid = request.args.get('pid')
+    portrait = None
+    if pid is not None:
+        portrait = mongo.db.portrait.find_one(
+            {'_id': ObjectId(pid)})
     return render_template('timeline.html', messages=messages,
-                           followed=followed, profile_user=profile_user)
+        followed=followed, profile_user=profile_user,
+        portrait=portrait)
 
 @app.route('/<username>/follow')
 def follow_user(username):
@@ -128,9 +137,11 @@ def add_message():
     if request.form['text']:
         user = mongo.db.user.find_one(
             {'_id': ObjectId(session['user_id'])})
+        pid = None
         pname = ""
         pfile = "default.png"
         if 'portrait_file' in user:
+            pid = user['portrait_id']
             pname = user['portrait_name']
             pfile = user['portrait_file']
         mongo.db.message.insert(
@@ -139,6 +150,7 @@ def add_message():
              'username': user['username'],
              'text': request.form['text'],
              'pub_date': datetime.datetime.utcnow(),
+             'portrait_id': pid,
              'portrait_file': pfile,
              'portrait_name': pname
             })
@@ -239,8 +251,7 @@ def portraits_select(pid):
         { '$set': {
             'portrait_id': pid,
             'portrait_file': portrait['imagefile'],
-            'portrait_name': portrait['name'],
-            'portrait_desc': portrait['description'],
+            'portrait_name': portrait['name']
         }})
     flash('Your identity has been changed: you are now %s' % portrait['name'])
     return redirect(url_for('public_timeline'))
