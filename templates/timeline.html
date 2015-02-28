@@ -12,13 +12,6 @@
   <h2>{{ self.title() }}</h2>
   {% if g.user %}
     {% if request.endpoint == 'user_timeline' %}
-      {% if portrait and portrait.name != "" %}
-        <div class=metadesc>
-          <img src="/static/portraits-images/{{ portrait.filename }}.jpg">
-          <h3>{{ portrait.name }}</h3>
-          <p>{{ portrait.description|safe }}</p>
-        </div>
-      {% endif %}
       <div class=followstatus>
         {% if g.user._id == profile_user._id %}
           This is you!
@@ -32,6 +25,16 @@
                   }}">Follow user</a>.
         {% endif %}
       </div>
+
+      {% if portrait and portrait.name != "" %}
+        <div class=metadesc>
+          <img class="portrait" src="/static/portraits-images/{{ portrait.filename }}.jpg">
+          <h3>{{ portrait.name }}</h3>
+          <p>{{ portrait.description|safe }}</p>
+          <p><a href="https://commons.wikimedia.org/wiki/File:{{ portrait.filename }}" target="_blank"><img width="64" src="/static/res/Wiki-commons.png" alt="Wikimedia Commons" title="See this image on Wikimedia Commons"></a></p>
+        </div>
+      {% endif %}
+      
     {% elif request.endpoint == 'timeline' or request.endpoint == 'public_timeline' %}
       <div class=twitbox>
         <form action="{{ url_for('add_message') }}" method=post>
@@ -49,8 +52,7 @@
           </a>
         <p>
         <small>{{ message.username }}</a> as </small>
-        <strong><a href="{{ url_for('user_timeline', username=message.username)
-                }}">
+        <strong><a href="{{ url_for('user_timeline', username=message.username) }}?pid={{ message.portrait_id }}">
           {% if message.portrait_name %}
             {{ message.portrait_name }}
           {% else %}

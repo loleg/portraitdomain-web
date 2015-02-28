@@ -92,7 +92,7 @@ def user_timeline(username):
     # Get portrait if selected
     pid = request.args.get('pid')
     portrait = None
-    if pid is not None:
+    if pid is not None and pid != "":
         portrait = mongo.db.portrait.find_one(
             {'_id': ObjectId(pid)})
     return render_template('timeline.html', messages=messages,

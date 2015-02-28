@@ -206,7 +206,7 @@ div.error {
     font-size: 13px;
 }
 
-div.metadesc img {
+div.metadesc img.portrait {
     width: 30%;
     margin-right: 2em;
     float: left;
