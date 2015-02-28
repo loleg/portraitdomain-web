@@ -233,6 +233,15 @@ def portraits_select(pid):
         {'_id': ObjectId(pid)})
     if portrait is None:
         abort(404)
+    # Unselect previous portrait
+    user = mongo.db.user.find_one(
+        {'_id': ObjectId(session['user_id'])})
+    if 'portrait_id' in user:
+        mongo.db.portrait.update(
+            { '_id': ObjectId(user['portrait_id']) },
+            { '$set': {
+                'user': None
+            }})
     # Update portrait
     mongo.db.portrait.update(
         { '_id': ObjectId(pid) },
