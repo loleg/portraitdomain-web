@@ -15,8 +15,30 @@ This is a project demo developed for the [OpenGLAM.ch Hackathon](http://openglam
 
 In addition, a [Supervisor](http://supervisord.org/) running on the server provides a daemon to protect the Gunicorn-Flask process. 
 
-####The MiniTwit app
-Based on the [MiniTwit application](https://github.com/mitsuhiko/flask/tree/master/examples/minitwit), which is a prototype of Twitter like multiple-user social network. The original application depends on SQLite. However, the data store could be modified to fit the category of NoSQL such as Google Data Store or MongoDB.
+#### Developer setup
+
+Based on the [MiniTwit application](https://github.com/mitsuhiko/flask/tree/master/examples/minitwit), which is a prototype of Twitter like multiple-user social network. The original application depends on SQLite. However, we have focused on using MongoDB for this project.
+
+To install, set up a config.py which can be just a blank file on your local machine.
+
+(1) Make sure you have a current version of Python and Virtualenv, as well as XML libraries:
+
+```
+sudo apt-get install python virtualenv
+sudo apt-get install libxml2-dev libxslt-dev
+```
+
+(2) Set up a virtual environment:
+
+```
+virtualenv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+```
+
+(3) Run the server:
+
+python minitwit.py
 
 ####Deployment
 
