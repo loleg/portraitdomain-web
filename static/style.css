@@ -206,4 +206,12 @@ div.error {
     font-size: 13px;
 }
 
+div.metadesc img {
+    width: 30%;
+    margin-right: 2em;
+    float: left;
+}
 
+div.metadesc {
+    clear: both;
+}

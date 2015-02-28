@@ -240,6 +240,7 @@ def portraits_select(pid):
             'portrait_id': pid,
             'portrait_file': portrait['imagefile'],
             'portrait_name': portrait['name'],
+            'portrait_desc': portrait['description'],
         }})
     flash('Your identity has been changed: you are now %s' % portrait['name'])
     return redirect(url_for('public_timeline'))

@@ -1,6 +1,9 @@
 from datetime import datetime
 from os import listdir
 from os.path import isfile, join
+from lxml import etree
+from lxml.cssselect import CSSSelector
+from io import StringIO, BytesIO
 import re
 
 def find_by_file(dbo, filename):
@@ -16,10 +19,20 @@ def update(dbo):
     # load each file
     for f in pdfiles:
         filename = f.rstrip('.xml')
-        # TODO: read metadata
+
+        # Get name from filename
         regexpname = re.compile(r"(.*)_-_.*_-_.*")
         portraitname = regexpname.match(filename).group(1)
         portraitname = portraitname.replace('_', ' ')
+
+        # Read metadata
+        tree = etree.parse(join(PD_PATH_META, f))
+        elem = tree.getroot()
+        sel = CSSSelector('response description language')
+        elems = [ desc for desc in sel(elem) ]
+        if len(elems) == 0: continue
+        desc = elems[0].text
+
         # Convert image file
         imagefile = "%s.jpg" % (filename)
         if isfile(join(PD_PATH_IMGS, imagefile)):
@@ -27,6 +40,7 @@ def update(dbo):
             if find_by_file(dbo, filename) is None:
                 dbo.insert({
                     'name': portraitname,
+                    'description': desc,
                     'filename': filename,
                     'imagefile': imagefile,
                     'added': datetime.now(),
@@ -37,6 +51,7 @@ def update(dbo):
                     { 'filename': filename },
                     { '$set': {
                         'name': portraitname,
+                        'description': desc,
                         'imagefile': imagefile
                     }})
     # show contents of db

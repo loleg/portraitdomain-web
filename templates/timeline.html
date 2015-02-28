@@ -11,10 +11,14 @@
 {% block body %}
   <h2>{{ self.title() }}</h2>
   {% if g.user %}
-    {% if g.portrait %}
-
-    {% endif %}
     {% if request.endpoint == 'user_timeline' %}
+      {% if profile_user.portrait_name and profile_user.portrait_name != "" %}
+        <div class=metadesc>
+          <img src="/static/portraits-images/{{ g.user.portrait_file }}">
+          <h3>{{ profile_user.portrait_name }}</h3>
+          <p>{{ profile_user.portrait_desc|safe }}</p>
+        </div>
+      {% endif %}
       <div class=followstatus>
         {% if g.user._id == profile_user._id %}
           This is you!
