@@ -17,8 +17,9 @@ def update(dbo):
     for f in pdfiles:
         filename = f.rstrip('.xml')
         # TODO: read metadata
-        regexpname = re.compile(r"(.*)_-_.*")
+        regexpname = re.compile(r"(.*)_-_.*_-_.*")
         portraitname = regexpname.match(filename).group(1)
+        portraitname = portraitname.replace('_', ' ')
         # Convert image file
         imagefile = "%s.jpg" % (filename)
         if isfile(join(PD_PATH_IMGS, imagefile)):

@@ -63,6 +63,7 @@ div.page h1 {
     text-shadow: 0 0 3px #999;
     font-weight: normal;
     text-align: center;
+    font-size: 300%;
 }
 div.page h1 a {
     color: inherit;
@@ -75,7 +76,7 @@ div.page div.navigation {
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #eee;
     color: #888;
-    font-size: 12px;
+    font-size: 14pt;
     letter-spacing: 0.5px;
     text-align: center;
 }
@@ -94,6 +95,8 @@ div.page h2 {
     margin: 0 0 15px 0;
     color: #105751;
     text-shadow: 0 1px 2px #ccc;
+    text-align: center;
+    opacity: 0.5;
 }
 
 div.page div.body {

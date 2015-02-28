@@ -127,7 +127,7 @@ def add_message():
         abort(401)
     if request.form['text']:
         user = mongo.db.user.find_one(
-            {'_id': ObjectId(session['user_id'])}, {'email': 1, 'username': 1})
+            {'_id': ObjectId(session['user_id'])})
         pname = ""
         pfile = "default.png"
         if 'portrait_file' in user:
@@ -241,7 +241,7 @@ def portraits_select(pid):
             'portrait_file': portrait['imagefile'],
             'portrait_name': portrait['name'],
         }})
-    flash('Your portrait has been set')
+    flash('Your identity has been changed: you are now %s' % portrait['name'])
     return redirect(url_for('public_timeline'))
 
 @app.route('/portraits')
