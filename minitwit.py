@@ -14,14 +14,15 @@ import portraitdomain
 # create our little application :)
 app = Flask(__name__)
 
-# setup mongodb
-mongo = PyMongo(app)
-
 # Load default config and override config from an environment variable
 app.config.update(dict(
     DEBUG=True,
     SECRET_KEY='development key'))
 app.config.from_envvar('MINITWIT_SETTINGS', silent=True)
+app.config.from_object('config')
+
+# setup mongodb
+mongo = PyMongo(app)
 
 def get_user_id(username):
     """Convenience method to look up the id for a username."""

@@ -1,4 +1,5 @@
 .venv
+config.py
 data
 static/portraits-meta
 static/portraits-images
