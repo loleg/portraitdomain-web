@@ -1,8 +1,10 @@
-.portraits { list-style: none; padding: 0px; text-align: center; }
+.portraits { 
+    list-style: none; padding: 0px; text-align: center; 
+}
 .portraits li { padding: 0px; margin: 10px; display: inline-block; }
 
 body {
-    background: #eee;
+    background: #eee url(res/Tweed_UV_H_CM_1_400.jpg);
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 14px;
 }
@@ -40,35 +42,52 @@ input[type="submit"] {
 }
 
 div.page {
-    background: white;
-    border: 1px solid #6ECCC4;
-    width: 700px;
+    background: #f0f0f0;
+    width: 90%;
     margin: 30px auto;
+    margin-top:15px;
+    padding: 20px;
+    border-left: 18px solid #999;
+    border-right: 18px solid #aaa;
+    border-top: 18px solid #bbb;
+    border-bottom: 18px solid #777;
+    opacity: 0.85;
 }
 
 div.page h1 {
-    background: #6ECCC4;
+    background: none;
     margin: 0;
     padding: 10px 14px;
-    color: white;
+    color: #777;
     letter-spacing: 1px;
-    text-shadow: 0 0 3px #24776F;
+    text-shadow: 0 0 3px #999;
     font-weight: normal;
+    text-align: center;
+}
+div.page h1 a {
+    color: inherit;
+    text-decoration: inherit;
 }
 
 div.page div.navigation {
-    background: #DEE9E8;
+    background: none;
     padding: 4px 10px;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #eee;
     color: #888;
     font-size: 12px;
     letter-spacing: 0.5px;
+    text-align: center;
 }
 
 div.page div.navigation a {
     color: #444;
     font-weight: bold;
+    text-decoration: none;
+}
+
+div.page div.navigation a:hover {
+    text-decoration: underline;
 }
 
 div.page h2 {
@@ -106,8 +125,9 @@ div.page ul.messages {
 div.page ul.messages li {
     margin: 10px 0;
     padding: 5px;
-    background: #F0FAF9;
-    border: 1px solid #DBF3F1;
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 5px 5px 10px #ddd;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     min-height: 48px;
@@ -135,6 +155,7 @@ div.page div.twitbox {
     border: 1px solid #94E2DA;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    display: inline-block;
 }
 
 div.page div.twitbox h3 {
@@ -148,7 +169,8 @@ div.page div.twitbox p {
 }
 
 div.page div.twitbox input[type="text"] {
-    width: 585px;
+    width: auto;
+    min-width: 30em;
 }
 
 div.page div.twitbox input[type="submit"] {

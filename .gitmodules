@@ -1,0 +1,6 @@
+[submodule "meta/durheim"]
+	path = meta/durheim
+	url = git@github.com:bellisk/durheim.git
+[submodule "meta/bellisk-durheim"]
+	path = meta/bellisk-durheim
+	url = git@github.com:bellisk/durheim.git

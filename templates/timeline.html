@@ -11,6 +11,9 @@
 {% block body %}
   <h2>{{ self.title() }}</h2>
   {% if g.user %}
+    {% if g.portrait %}
+
+    {% endif %}
     {% if request.endpoint == 'user_timeline' %}
       <div class=followstatus>
         {% if g.user._id == profile_user._id %}
@@ -25,21 +28,21 @@
                   }}">Follow user</a>.
         {% endif %}
       </div>
-    {% elif request.endpoint == 'timeline' %}
+    {% elif request.endpoint == 'timeline' or request.endpoint == 'public_timeline' %}
       <div class=twitbox>
-        <h3>What's on your mind {{ g.user.username }}?</h3>
         <form action="{{ url_for('add_message') }}" method=post>
-          <p><input type=text name=text size=60><!--
-          --><input type=submit value="Share">
+          <p><input type=text name=text><!--
+          --><input type=submit value="Speak!">
         </form>
       </div>
     {% endif %}
   {% endif %}
   <ul class=messages>
     {% for message in messages %}
-      <li><img src="/portraits/get/{{ message.author_id }}" alternate="{{ message.email|gravatar(size=48) }}"><p>
-        <strong><a href="{{ url_for('user_timeline', username=message.username)
-                }}">{{ message.username }}</a></strong>
+      <li><img src="/static/portraits-images/{{ message.portrait_file }}" alternate="{{ message.email|gravatar(size=48) }}"><p>
+        <strong>{{ message.portrait_name }}</strong>
+        (<a href="{{ url_for('user_timeline', username=message.username)
+                }}">{{ message.username }}</a>)
         {{ message.text }}
         <small>&mdash; {{ message.pub_date|datetimeformat }}</small>
         {% else %}

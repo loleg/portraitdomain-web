@@ -90,7 +90,6 @@ def user_timeline(username):
     return render_template('timeline.html', messages=messages,
                            followed=followed, profile_user=profile_user)
 
-
 @app.route('/<username>/follow')
 def follow_user(username):
     """Adds the current user as follower of the given user."""
@@ -129,12 +128,20 @@ def add_message():
     if request.form['text']:
         user = mongo.db.user.find_one(
             {'_id': ObjectId(session['user_id'])}, {'email': 1, 'username': 1})
+        pname = ""
+        pfile = "default.png"
+        if 'portrait_file' in user:
+            pname = user['portrait_name']
+            pfile = user['portrait_file']
         mongo.db.message.insert(
             {'author_id': ObjectId(session['user_id']),
              'email': user['email'],
              'username': user['username'],
              'text': request.form['text'],
-             'pub_date': datetime.datetime.utcnow()})
+             'pub_date': datetime.datetime.utcnow(),
+             'portrait_file': pfile,
+             'portrait_name': pname
+            })
         flash('Your message was recorded')
     return redirect(url_for('timeline'))
 
@@ -225,14 +232,15 @@ def portraits_select(pid):
         { '_id': ObjectId(pid) },
         { '$set': {
             'user': session['user_id']
-        }});
+        }})
     # Update user
     mongo.db.user.update(
         { '_id': ObjectId(session['user_id']) },
         { '$set': {
             'portrait_id': pid,
-            'portrait_file': portrait['imagefile']
-        }});
+            'portrait_file': portrait['imagefile'],
+            'portrait_name': portrait['name'],
+        }})
     flash('Your portrait has been set')
     return redirect(url_for('public_timeline'))
 
