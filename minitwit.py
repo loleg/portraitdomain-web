@@ -96,6 +96,9 @@ def user_timeline(username):
     if pid is not None and pid != "":
         portrait = mongo.db.portrait.find_one(
             {'_id': ObjectId(pid)})
+    elif 'portrait_id' in profile_user:
+        portrait = mongo.db.portrait.find_one(
+            {'_id': ObjectId(profile_user['portrait_id'])})
     return render_template('timeline.html', messages=messages,
         followed=followed, profile_user=profile_user,
         portrait=portrait)
