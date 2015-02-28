@@ -273,4 +273,4 @@ app.jinja_env.filters['datetimeformat'] = format_datetime
 app.jinja_env.filters['gravatar'] = gravatar_url
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=1852)
