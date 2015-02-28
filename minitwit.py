@@ -56,17 +56,7 @@ def timeline():
     """
     if not g.user:
         return redirect(url_for('public_timeline'))
-    followed = mongo.db.follower.find_one(
-        {'who_id': ObjectId(session['user_id'])}, {'whom_id': 1})
-    if followed is None:
-        followed = {'whom_id': []}
-    messages = mongo.db.message.find(
-        {'$or': [
-            {'author_id': ObjectId(session['user_id'])},
-            {'author_id': {'$in': followed['whom_id']}}
-        ]}).sort('pub_date', -1)
-    return render_template('timeline.html', messages=messages)
-
+    return redirect(url_for('user_timeline', username=g.user['username']))
 
 @app.route('/public')
 def public_timeline():
