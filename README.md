@@ -1,6 +1,6 @@
 # Portrait Domain
 
-This is a project demo developed for the [OpenGLAM.ch Hackathon](http://openglam.ch) in Berne, Switzerland on February 27-28, 2015. For background information see the [concept](https://docs.google.com/document/d/1qBTeD2aGTcyGEKOV28KBpriDiGb5BBiKpRs48SAEB3w/edit?usp=sharing).
+This is a project demo developed for the [OpenGLAM.ch Hackathon](http://openglam.ch) in Berne, Switzerland on February 27-28, 2015. For background information see the [wiki page](http://make.opendata.ch/wiki/project:portrait_domain) (make.opendata.ch).
 
 ####Stack
 
