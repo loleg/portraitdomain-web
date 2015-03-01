@@ -46,7 +46,13 @@
     {% for message in messages %}
       <li>
         <a href="{{ url_for('user_timeline', username=message.username) }}?pid={{ message.portrait_id }}">
-            <img src="/static/portraits-images/{{ message.portrait_file }}" alternate="{{ message.email|gravatar(size=48) }}">
+          {% if message.portrait_id %}
+            <img height="46" src="/static/portraits-faces/{{ message.portrait_file }}">
+          {% elif message.email %}
+            <img height="46" src="{{ message.email|gravatar(size=48) }}">
+          {% else %}
+            <img height="46" src="/static/res/default.png">
+          {% endif %}
           </a>
         <p>
         <small>{{ message.username }}</a> as </small>

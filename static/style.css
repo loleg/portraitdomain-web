@@ -219,3 +219,10 @@ div.metadesc {
 div.page ul.messages p.text {
     margin: 3pt;
 }
+.portraits li a img {
+    border: 1px solid transparent;
+    padding: 2px;
+}
+.portraits li a:hover img {
+    border: 1px solid black;
+}

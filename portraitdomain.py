@@ -33,10 +33,9 @@ def update(dbo):
         if len(elems) == 0: continue
         desc = elems[0].text
 
-        # Convert image file
         imagefile = "%s.jpg" % (filename)
         if isfile(join(PD_PATH_IMGS, imagefile)):
-            # skip if already in database
+            # Update entry in database
             if find_by_file(dbo, filename) is None:
                 dbo.insert({
                     'name': portraitname,

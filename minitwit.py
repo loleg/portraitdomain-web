@@ -133,7 +133,7 @@ def add_message():
             {'_id': ObjectId(session['user_id'])})
         pid = None
         pname = ""
-        pfile = "default.png"
+        pfile = ""
         if 'portrait_file' in user:
             pid = user['portrait_id']
             pname = user['portrait_name']
@@ -220,9 +220,10 @@ def portraits_get(userid):
         abort(404)
     if 'portrait_file' in user:
         pfile = user['portrait_file']
+        return redirect('/static/portraits-images/%s' % pfile)
     else:
         pfile = "default.png"
-    return redirect('/static/portraits-images/%s' % pfile)
+        return redirect('/static/res/%s' % pfile)
 
 @app.route('/portraits/select/<pid>')
 def portraits_select(pid):
