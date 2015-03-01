@@ -4,6 +4,8 @@
     Public Timeline
   {% elif request.endpoint == 'user_timeline' %}
     {{ profile_user.username }}'s Timeline
+  {% elif request.endpoint == 'face_timeline' %}
+    {{ portrait.name }}'s Timeline
   {% else %}
     My Timeline
   {% endif %}
@@ -12,8 +14,9 @@
   <h2>{{ self.title() }}</h2>
   {% if portrait and portrait.name != "" %}
     <div class=metadesc>
+      <a href="/static/portraits-images/{{ portrait.filename }}.jpg">
       <img class="portrait" src="/static/portraits-images/{{ portrait.filename }}.jpg">
-      <h3>{{ portrait.name }}</h3>
+      </a>
       <p>{{ portrait.description|safe }}</p>
       <p><a href="https://commons.wikimedia.org/wiki/File:{{ portrait.filename }}" target="_blank"><img width="64" src="/static/res/Wiki-commons.png" alt="Wikimedia Commons" title="See this image on Wikimedia Commons"></a></p>
     </div>
@@ -55,14 +58,17 @@
           {% endif %}
           </a>
         <p>
-        <small>{{ message.username }}</a> as </small>
-        <strong><a href="{{ url_for('user_timeline', username=message.username) }}?pid={{ message.portrait_id }}">
+        <a href="{{ url_for('user_timeline', username=message.username) }}">
+          {{ message.username }}</a> as
+        <strong>
           {% if message.portrait_name %}
+            <a href="{{ url_for('face_timeline', pid=message.portrait_id) }}">
             {{ message.portrait_name }}
+            </a>
           {% else %}
             Anonymous glammie
           {% endif %}
-        </a></strong>
+        </strong>
         <p class="text">&mdash; {{ message.text }}</p>
         <small>{{ message.pub_date|datetimeformat }}</small>
         {% else %}

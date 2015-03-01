@@ -81,16 +81,25 @@ def user_timeline(username):
     messages = mongo.db.message.find(
         {'author_id': ObjectId(profile_user['_id'])}).sort('pub_date', -1)
     # Get portrait if selected
-    pid = request.args.get('pid')
-    portrait = None
-    if pid is not None and pid != "":
-        portrait = mongo.db.portrait.find_one(
-            {'_id': ObjectId(pid)})
-    elif 'portrait_id' in profile_user:
+    if 'portrait_id' in profile_user:
         portrait = mongo.db.portrait.find_one(
             {'_id': ObjectId(profile_user['portrait_id'])})
     return render_template('timeline.html', messages=messages,
         followed=followed, profile_user=profile_user,
+        portrait=portrait)
+
+@app.route('/face/<pid>')
+def face_timeline(pid):
+    """Displays tweets by portrait."""
+    profile_user = mongo.db.user.find_one({'portrait_id': pid})
+    # Get messages
+    messages = mongo.db.message.find(
+        {'portrait_id': pid}).sort('pub_date', -1)
+    # Get portrait
+    portrait = mongo.db.portrait.find_one(
+        {'_id': ObjectId(pid)})
+    return render_template('timeline.html', messages=messages,
+        profile_user=profile_user,
         portrait=portrait)
 
 @app.route('/<username>/follow')
