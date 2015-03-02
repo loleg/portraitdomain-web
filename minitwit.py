@@ -8,6 +8,7 @@ from flask import Flask, request, session, url_for, redirect, \
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask.ext.pymongo import PyMongo
 from bson.objectid import ObjectId
+from random import shuffle
 
 import portraitdomain
 
@@ -275,10 +276,11 @@ def portraits():
     if 'user_id' not in session:
         abort(401)
         # Todo: check g.user for selected portrait
-    portraits = mongo.db.portrait.find(
+    portraits = list(mongo.db.portrait.find(
             {'user': None}
-        ).limit(21)
-    return render_template('portraits.html', portraits=portraits)
+        ).limit(80))
+    shuffle(portraits)
+    return render_template('portraits.html', portraits=portraits[:21])
 
 # add some filters to jinja
 app.jinja_env.filters['datetimeformat'] = format_datetime
