@@ -82,6 +82,7 @@ def user_timeline(username):
     messages = mongo.db.message.find(
         {'author_id': ObjectId(profile_user['_id'])}).sort('pub_date', -1)
     # Get portrait if selected
+    portrait = None
     if 'portrait_id' in profile_user:
         portrait = mongo.db.portrait.find_one(
             {'_id': ObjectId(profile_user['portrait_id'])})
