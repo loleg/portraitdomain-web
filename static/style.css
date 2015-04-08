@@ -6,6 +6,7 @@
 body {
     background: #eee url(res/Tweed_UV_H_CM_1_400.jpg);
     font-family: 'Trebuchet MS', sans-serif;
+    font-family: 'Old Standard TT', serif;
     font-size: 14px;
 }
 
@@ -139,6 +140,9 @@ div.page ul.messages li {
 div.page ul.messages p {
     margin: 0;
 }
+div.page ul.messages p.text {
+    font-size: 125%;
+}
 
 div.page ul.messages li img {
     float: left;
@@ -147,6 +151,8 @@ div.page ul.messages li img {
 }
 
 div.page ul.messages li small {
+    float: right;
+    margin-top: -1.2em;
     font-size: 0.9em;
     color: #888;
 }

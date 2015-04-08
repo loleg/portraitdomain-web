@@ -65,6 +65,23 @@ def public_timeline():
     messages = mongo.db.message.find().sort('pub_date', -1)
     return render_template('timeline.html', messages=messages)
 
+@app.route('/search')
+def search_result():
+    """Searches user and post data"""
+    query = request.args.get('q')
+    regex = ".*%s.*" % query
+    messages = mongo.db.message.find({
+        "text": { "$regex": query, "$options":"i" }
+    }).sort('pub_date', -1)
+    portraits = mongo.db.portrait.find({
+        "name": { "$regex": query, "$options":"i" }
+    }).sort('name', 1)
+    return render_template(
+        'timeline.html', 
+        messages=messages, 
+        portraits=portraits,
+        query=query
+    )
 
 @app.route('/<username>')
 def user_timeline(username):

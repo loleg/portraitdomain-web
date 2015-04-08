@@ -1,7 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}
   {% if request.endpoint == 'public_timeline' %}
-    Public Timeline
+    Top of the shoutbox
+  {% elif request.endpoint == 'search_result' %}
+    Search results for '{{ query }}'
   {% elif request.endpoint == 'user_timeline' %}
     {{ profile_user.username }}'s Timeline
   {% elif request.endpoint == 'face_timeline' %}
@@ -14,11 +16,11 @@
   <h2>{{ self.title() }}</h2>
   {% if portrait and portrait.name != "" %}
     <div class=metadesc>
+      <a style="float:right" href="https://commons.wikimedia.org/wiki/File:{{ portrait.filename }}" target="_blank"><img width="64" src="/static/res/Wiki-commons.png" alt="Wikimedia Commons" title="See this image on Wikimedia Commons"></a>
       <a href="/static/portraits-images/{{ portrait.filename }}.jpg">
       <img class="portrait" src="/static/portraits-images/{{ portrait.filename }}.jpg">
       </a>
       <p>{{ portrait.description|safe }}</p>
-      <p><a href="https://commons.wikimedia.org/wiki/File:{{ portrait.filename }}" target="_blank"><img width="64" src="/static/res/Wiki-commons.png" alt="Wikimedia Commons" title="See this image on Wikimedia Commons"></a></p>
     </div>
   {% endif %}
   {% if g.user %}
@@ -44,6 +46,18 @@
         </form>
       </div>
     {% endif %}
+  {% endif %}
+  {% if request.endpoint == 'search_result' %}
+  <ul class=portraits>
+    {% for portrait in portraits %}
+      <li>
+        <a href="/face/{{ portrait._id }}">
+          <img height="100" src="/static/portraits-faces/{{ portrait.filename }}.jpg"></a>
+        <br>
+        {{ portrait.name }}
+      </li>
+    {% endfor %}
+  </ul>
   {% endif %}
   <ul class=messages>
     {% for message in messages %}
@@ -72,7 +86,10 @@
         <p class="text">&mdash; {{ message.text }}</p>
         <small>{{ message.pub_date|datetimeformat }}</small>
         {% else %}
-      <li><em>There's no message so far.</em>
+      <li><em style="opacity:0.5">There's no message here yet. Sign in and speak up!</em></li>
     {% endfor %}
   </ul>
+  {% if request.endpoint == 'public_timeline' %}
+    <h2>Bottom of the shoutbox</h2>
+  {% endif %}
 {% endblock %}

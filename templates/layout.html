@@ -1,8 +1,12 @@
-<!doctype html>
-<title>{% block title %}Welcome{% endblock %} | Portrait Domain</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{% block title %}Welcome{% endblock %} | Portrait Id</title>
+<link href='http://fonts.googleapis.com/css?family=Old+Standard+TT:400,400italic' rel='stylesheet' type='text/css'>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 <div class=page>
-  <h1><a href="{{ url_for('public_timeline') }}">Portrait Domain</a></h1>
+  <h1><a href="{{ url_for('public_timeline') }}">Portrait Id</a></h1>
   <div class=navigation>
   {% if g.user %}
     <a href="{{ url_for('portraits') }}">select portrait</a> (1852-1853) |
@@ -13,6 +17,11 @@
     <a href="{{ url_for('register') }}">sign up</a> |
     <a href="{{ url_for('login') }}">sign in</a>
   {% endif %}
+     |
+    <form method="get" action="/search" style="display:inline">
+      <input type="text" name="q" value="">
+      <button type="submit">search</button>
+    </form>
   </div>
   {% with flashes = get_flashed_messages() %}
     {% if flashes %}
@@ -29,7 +38,9 @@
   <div class=footer>
     CC BY-SA 4.0
     &bull;
-    A <a href="http://make.opendata.ch/wiki/project:portrait_domain" target="_blank">make.opendata.ch project</a> launched at the <a href="http://make.opendata.ch/wiki/event:2015-02" target="_blank">1st Swiss Open Cultural Data Hackathon</a>
+    A <a href="http://make.opendata.ch/wiki/" target="_blank">make.opendata.ch</a> project launched at the <a href="http://make.opendata.ch/wiki/event:2015-02" target="_blank">1st Swiss Open Cultural Data Hackathon</a> 
+    &bull;
+    <a href="https://github.com/loleg/portraitdomain-web">Source Code</a>
   {% if g.user %}
     &bull;
     <a href="{{ url_for('logout') }}">sign out [{{ g.user.username }}]</a>
