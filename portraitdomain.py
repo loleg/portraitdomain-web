@@ -5,6 +5,7 @@ from lxml import etree
 from lxml.cssselect import CSSSelector
 from io import StringIO, BytesIO
 import re
+from identifier import getShortText
 
 def find_by_file(dbo, filename):
     """ Look up the id for a filename of image """
@@ -32,6 +33,7 @@ def update(dbo):
         elems = [ desc for desc in sel(elem) ]
         if len(elems) == 0: continue
         desc = elems[0].text
+        shortname = getShortText(portraitname.decode('utf-8'), 16)
 
         imagefile = "%s.jpg" % (filename)
         if isfile(join(PD_PATH_IMGS, imagefile)):
@@ -39,6 +41,7 @@ def update(dbo):
             if find_by_file(dbo, filename) is None:
                 dbo.insert({
                     'name': portraitname,
+                    'shortname': shortname,
                     'description': desc,
                     'filename': filename,
                     'imagefile': imagefile,
@@ -50,6 +53,7 @@ def update(dbo):
                     { 'filename': filename },
                     { '$set': {
                         'name': portraitname,
+                        'shortname': shortname,
                         'description': desc,
                         'imagefile': imagefile
                     }})

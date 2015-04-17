@@ -83,10 +83,21 @@ def search_result():
         query=query
     )
 
+@app.route('/go/<shortname>')
+def go_link(shortname):
+    """ Expands shortlink to portrait """
+    p = mongo.db.portrait.find_one({
+        'shortname': shortname })
+    if p is None:
+        abort(404)
+    pid = p['_id']
+    return redirect(url_for('face_timeline', pid=pid))
+
 @app.route('/<username>')
 def user_timeline(username):
     """Display's a users tweets."""
-    profile_user = mongo.db.user.find_one({'username': username})
+    profile_user = mongo.db.user.find_one({
+        'username': username })
     if profile_user is None:
         abort(404)
     # Work out followers
@@ -134,7 +145,6 @@ def follow_user(username):
         {'$push': {'whom_id': whom_id}}, upsert=True)
     flash('You are now following "%s"' % username)
     return redirect(url_for('user_timeline', username=username))
-
 
 @app.route('/<username>/unfollow')
 def unfollow_user(username):
