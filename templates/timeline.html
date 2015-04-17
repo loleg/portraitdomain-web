@@ -66,6 +66,7 @@
   <ul class=messages>
     {% for message in messages %}
       <li>
+        <small>{{ message.pub_date|datetimeformat }}</small>
         <a href="{{ url_for('user_timeline', username=message.username) }}?pid={{ message.portrait_id }}">
           {% if message.portrait_id %}
             <img height="46" src="/static/portraits-faces/{{ message.portrait_file }}">
@@ -88,7 +89,6 @@
           {% endif %}
         </strong>
         <p class="text">&mdash; {{ message.text }}</p>
-        <small>{{ message.pub_date|datetimeformat }}</small>
         {% if vars.update({ 'last_pub': message.pub_date }) %}{% endif %}
     {% else %}
       <li><em style="opacity:0.5">There's no message here yet. Sign in and speak up!</em></li>
