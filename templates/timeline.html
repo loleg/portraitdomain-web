@@ -21,6 +21,11 @@
       <img class="portrait" src="/static/portraits-images/{{ portrait.filename }}.jpg">
       </a>
       <p>{{ portrait.description|safe }}</p>
+      {% if portrait.user == None %}
+        <a href="/portraits/select/{{ portrait._id }}">
+          <button class="green">Adopt this profile!</button>
+        </a>
+      {% endif %}
     </div>
   {% endif %}
   {% if g.user %}

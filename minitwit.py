@@ -267,7 +267,8 @@ def portraits_get(userid):
 def portraits_select(pid):
     """ Assign portrait to user """
     if 'user_id' not in session:
-        abort(401)
+        flash('Please login or register, then go back to adopt the portrait.')
+        return redirect('/login')
     portrait = mongo.db.portrait.find_one(
         {'_id': ObjectId(pid)})
     if portrait is None:

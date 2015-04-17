@@ -220,6 +220,7 @@ div.metadesc img.portrait {
 
 div.metadesc {
     clear: both;
+    min-height: 200px;
 }
 
 div.page ul.messages p.text {
@@ -231,4 +232,25 @@ div.page ul.messages p.text {
 }
 .portraits li a:hover img {
     border: 1px solid black;
+}
+
+form.login {
+    margin: 2%;
+}
+
+a button {
+    font-size: 140%; 
+    border-radius: 5px; padding: 6px;
+    border:1px solid #444; color: #444;
+}
+
+button.green {
+    background-color: #cfd; 
+}
+
+a button:hover {
+    cursor: pointer; 
+    background-color: #efd;
+    border-color: #000;
+    color: #000;
 }

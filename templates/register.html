@@ -3,7 +3,7 @@
 {% block body %}
   <h2>Sign Up</h2>
   {% if error %}<div class=error><strong>Error:</strong> {{ error }}</div>{% endif %}
-  <form action="" method=post>
+  <form action="" method=post class="login">
     <dl>
       <dt>Username:
       <dd><input type=text name=username size=30 value="{{ request.form.username }}">
