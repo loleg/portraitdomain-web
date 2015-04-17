@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import datetime
+from datetime import datetime
 from hashlib import md5
 
 import pytz
@@ -62,7 +62,12 @@ def timeline():
 @app.route('/public')
 def public_timeline():
     """Displays the latest messages of all users."""
-    messages = mongo.db.message.find().sort('pub_date', -1)
+    past = request.args.get('past')
+    if past is None:
+        messages = mongo.db.message.find().sort('pub_date', -1).limit(10)
+    else:
+        past = datetime.strptime(past.split('.')[0], "%Y-%m-%d %H:%M:%S")
+        messages = mongo.db.message.find({ 'pub_date': { '$lt': past } }).sort('pub_date', -1).limit(10)
     return render_template('timeline.html', messages=messages)
 
 @app.route('/search')
@@ -181,7 +186,7 @@ def add_message():
              'email': user['email'],
              'username': user['username'],
              'text': request.form['text'],
-             'pub_date': datetime.datetime.utcnow(),
+             'pub_date': datetime.utcnow(),
              'portrait_id': pid,
              'portrait_file': pfile,
              'portrait_name': pname

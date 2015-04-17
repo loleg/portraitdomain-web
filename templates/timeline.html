@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% set vars = {'last_pub': None} %}
 {% block title %}
   {% if request.endpoint == 'public_timeline' %}
     Top of the shoutbox
@@ -88,11 +89,16 @@
         </strong>
         <p class="text">&mdash; {{ message.text }}</p>
         <small>{{ message.pub_date|datetimeformat }}</small>
-        {% else %}
+        {% if vars.update({ 'last_pub': message.pub_date }) %}{% endif %}
+    {% else %}
       <li><em style="opacity:0.5">There's no message here yet. Sign in and speak up!</em></li>
     {% endfor %}
   </ul>
   {% if request.endpoint == 'public_timeline' %}
-    <h2>Bottom of the shoutbox</h2>
+    {% if messages.count(with_limit_and_skip=True) == 10 %}
+      <center><a href="/public?past={{ vars.last_pub }}">
+        <button>Scroll back in time ...</button></a></center>
+    {% endif %}
+    <h2 style="margin-top:2em">Bottom of the shoutbox</h2>
   {% endif %}
 {% endblock %}
