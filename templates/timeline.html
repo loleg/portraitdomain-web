@@ -16,9 +16,7 @@
   <h2>{{ self.title() }}</h2>
   {% if portrait and portrait.name != "" %}
     <div class=metadesc>
-      <a style="float:right" href="https://commons.wikimedia.org/wiki/File:{{ portrait.filename }}" target="_blank"><img width="64" src="/static/res/Wiki-commons.png" alt="Wikimedia Commons" title="See this image on Wikimedia Commons"></a>
-      <a href="/static/portraits-images/{{ portrait.filename }}.jpg">
-      <img class="portrait" src="/static/portraits-images/{{ portrait.filename }}.jpg">
+      <a style="float:right" href="https://commons.wikimedia.org/wiki/File:{{ portrait.filename }}" target="_blank"><img width="64" src="/static/res/Wiki-commons.png" alt="Wikimedia Commons" title="See this image on Wikimedia Commons"><img class="portrait" src="/static/portraits-images/{{ portrait.filename }}.jpg">
       </a>
       <p>{{ portrait.description|safe }}</p>
       {% if portrait.user == None %}
