@@ -179,12 +179,14 @@ div.page div.twitbox p {
 
 div.page div.twitbox input[type="text"] {
     width: auto;
-    min-width: 30em;
+    min-width: 25em;
+    font-size: 150%;
 }
 
 div.page div.twitbox input[type="submit"] {
     width: 70px;
     margin-left: 5px;
+    font-size: 150%;
 }
 
 ul.flashes {
