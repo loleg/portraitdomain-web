@@ -74,6 +74,9 @@ def public_timeline():
 def search_result():
     """Searches user and post data"""
     query = request.args.get('q')
+    if len(query) < 3:
+        flash('Search query too short to be of much use ...')
+        return redirect(url_for('public_timeline'))
     regex = ".*%s.*" % query
     messages = mongo.db.message.find({
         "text": { "$regex": query, "$options":"i" }
