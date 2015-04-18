@@ -12,6 +12,10 @@ from random import shuffle
 
 import portraitdomain
 
+import logging
+
+logging.basicConfig(filename='/tmp/portraitdomain.log', level=logging.INFO, format='%(asctime)s %(message)s')
+
 # create our little application :)
 app = Flask(__name__)
 
@@ -97,8 +101,10 @@ def go_link(shortname):
     p = mongo.db.portrait.find_one({
         'shortname': shortname })
     if p is None:
+        logging.error("'%s' shortlink not resolved" % shortname)
         abort(404)
     pid = p['_id']
+    logging.info("'%s' was shortlinked from '%s'" % (p['name'], shortname))
     return redirect(url_for('face_timeline', pid=pid))
 
 @app.route('/<username>')
@@ -122,6 +128,7 @@ def user_timeline(username):
     if 'portrait_id' in profile_user:
         portrait = mongo.db.portrait.find_one(
             {'_id': ObjectId(profile_user['portrait_id'])})
+        logging.info("'%s' was profiled as user (%s)" % (portrait['name'], username))
     return render_template('timeline.html', messages=messages,
         followed=followed, profile_user=profile_user,
         portrait=portrait)
@@ -136,6 +143,7 @@ def face_timeline(pid):
     # Get portrait
     portrait = mongo.db.portrait.find_one(
         {'_id': ObjectId(pid)})
+    logging.info("'%s' was profiled" % portrait['name'])
     return render_template('timeline.html', messages=messages,
         profile_user=profile_user,
         portrait=portrait)
@@ -195,6 +203,7 @@ def add_message():
              'portrait_name': pname
             })
         flash('Your message was recorded')
+        logging.info("(%s) posted as '%s'" % (user['username'], user['portrait_name']))
     return redirect(url_for('timeline'))
 
 
@@ -208,11 +217,14 @@ def login():
         user = mongo.db.user.find_one({'username': request.form['username']})
         if user is None:
             error = 'Invalid username'
+            logging.error('Attempted log in with invalid username')
         elif not check_password_hash(user['pw_hash'], request.form['password']):
             error = 'Invalid password'
+            logging.error('Attempted log in with invalid password')
         else:
             flash('You were logged in')
             session['user_id'] = str(user['_id'])
+            logging.info("(%s) has logged in" % user['username'])
             return redirect(url_for('timeline'))
     return render_template('login.html', error=error)
 
@@ -304,6 +316,7 @@ def portraits_select(pid):
             'portrait_file': portrait['imagefile'],
             'portrait_name': portrait['name']
         }})
+    logging.info("'%s' was adopted" % portrait['name'])
     flash('Your identity has been changed: you are now %s' % portrait['name'])
     return redirect(url_for('public_timeline'))
 
