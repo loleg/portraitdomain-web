@@ -14,8 +14,6 @@ import portraitdomain
 
 import logging
 
-logging.basicConfig(filename='/tmp/portraitdomain.log', level=logging.INFO, format='%(asctime)s %(message)s')
-
 # create our little application :)
 app = Flask(__name__)
 
@@ -28,6 +26,10 @@ app.config.from_object('config')
 
 # setup mongodb
 mongo = PyMongo(app)
+
+# divert logging
+print "Logging to %s" % app.config['LOG_FILE']
+logging.basicConfig(filename=app.config['LOG_FILE'], level=logging.INFO, format='%(asctime)s %(message)s')
 
 def get_user_id(username):
     """Convenience method to look up the id for a username."""
