@@ -31,7 +31,11 @@
     {% if request.endpoint == 'user_timeline' %}
       <div class=followstatus>
         {% if g.user._id == profile_user._id %}
-          This is you!
+          {% if portrait.name %}
+            This is your adopted profile: write something on behalf of <b>{{ portrait.name }}</b>
+          {% else %}
+            Please <a href="/portraits">adopt a profile</a> before posting.
+          {% endif %}
         {% elif followed %}
           You are currently following this user.
           <a class=unfollow href="{{ url_for('unfollow_user', username=profile_user.username)
@@ -42,13 +46,23 @@
                   }}">Follow user</a>.
         {% endif %}
       </div>
-    {% elif request.endpoint == 'timeline' or request.endpoint == 'public_timeline' %}
+        {% if g.user._id == profile_user._id and portrait.name %}
       <div class=twitbox>
         <form action="{{ url_for('add_message') }}" method=post>
-          <p><input type=text name=text><!--
-          --><input type=submit value="Speak!">
+          <p><input type=text name=text placeholder="What happened?"><!--
+          --><input type=submit value="&#x1f62e;!">
         </form>
       </div>
+        {% endif %}
+    {% elif request.endpoint == 'timeline' or request.endpoint == 'public_timeline' %}
+      {% if g.user.portrait_name %}
+      <div class=twitbox>
+        <form action="{{ url_for('add_message') }}" method=post>
+          <p><input type=text name=text placeholder="What happened?"><!--
+          --><input type=submit value="&#x1f62e;!">
+        </form>
+      </div>
+      {% endif %}
     {% endif %}
   {% endif %}
   {% if request.endpoint == 'search_result' %}

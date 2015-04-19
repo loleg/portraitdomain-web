@@ -320,7 +320,7 @@ def portraits_select(pid):
         }})
     logging.info("'%s' was adopted" % portrait['name'])
     flash('Your identity has been changed: you are now %s' % portrait['name'])
-    return redirect(url_for('public_timeline'))
+    return redirect(url_for('user_timeline', username=user['username']))
 
 @app.route('/portraits')
 def portraits():
@@ -329,8 +329,8 @@ def portraits():
         abort(401)
         # Todo: check g.user for selected portrait
     portraits = list(mongo.db.portrait.find(
-            {'user': None}
-        ).limit(80))
+            {'user': None, 'imagefile': { '$ne': '' }}
+        ).limit(300))
     shuffle(portraits)
     return render_template('portraits.html', portraits=portraits[:21])
 

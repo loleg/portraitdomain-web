@@ -12,9 +12,15 @@ def find_by_file(dbo, filename):
     rv = dbo.find_one({'filename': filename}, {'_id': 1})
     return rv['_id'] if rv else None
 
+TAG_RE = re.compile(r'<[^>]+>')
+
+def remove_tags(text):
+    return TAG_RE.sub('', text)
+
 def update(dbo):
     PD_PATH_META = "static/portraits-meta"
     PD_PATH_IMGS = "static/portraits-images"
+    PD_PATH_ERRS = "static/portraits-errors"
     pdfiles = [ f for f in listdir(PD_PATH_META) 
         if isfile(join(PD_PATH_META, f)) and not '.png' in f ]
     # load each file
@@ -30,10 +36,17 @@ def update(dbo):
         tree = etree.parse(join(PD_PATH_META, f))
         elem = tree.getroot()
         sel = CSSSelector('response description language')
-        elems = [ desc for desc in sel(elem) ]
+        elems = [ desc.text for desc in sel(elem) ]
         if len(elems) == 0: continue
-        desc = elems[0].text
+        desc = "".join(elems)
         shortname = getShortText(portraitname.decode('utf-8'), 16)
+
+        # Write metadata
+        textfilename = join(PD_PATH_IMGS, "%s.txt" % filename)
+        if not isfile(textfilename):
+            ftxt = open(textfilename, 'w')
+            ftxt.write(remove_tags(desc).encode('utf8'))
+            ftxt.close()
 
         imagefile = "%s.jpg" % (filename)
         if isfile(join(PD_PATH_IMGS, imagefile)):
@@ -57,5 +70,12 @@ def update(dbo):
                         'description': desc,
                         'imagefile': imagefile
                     }})
+        
+        if isfile(join(PD_PATH_ERRS, imagefile)):
+            # If image was removed, mark it disabled
+            dbo.update(
+                { 'filename': filename },
+                { '$set': { 'imagefile': '' }})
+
     # show contents of db
     return dbo.find().count()
