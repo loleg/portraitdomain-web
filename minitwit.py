@@ -334,6 +334,11 @@ def portraits():
     shuffle(portraits)
     return render_template('portraits.html', portraits=portraits[:21])
 
+@app.route('/about')
+def about_page():
+    """ Some information aboot this project """
+    return render_template('about.html')
+
 # add some filters to jinja
 app.jinja_env.filters['datetimeformat'] = format_datetime
 app.jinja_env.filters['gravatar'] = gravatar_url
